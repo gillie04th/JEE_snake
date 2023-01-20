@@ -1,4 +1,4 @@
-package snake;
+package models;
 
 public class User {
 

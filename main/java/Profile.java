@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Accueil
+ * Servlet implementation class Profile
  */
-@WebServlet("/Accueil")
-public class Accueil extends HttpServlet {
+@WebServlet("/profile")
+public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Accueil() {
+    public Profile() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,8 +26,11 @@ public class Accueil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+		request.setAttribute("title", "Profil");
+		request.setAttribute("joueur", "toto");
+		
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(request, response);
 	}
 
 	/**
