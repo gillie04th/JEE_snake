@@ -2,6 +2,7 @@ CREATE TABLE Joueur(
 	id_joueur int NOT NULL,
 	login VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
+	pseudo VARCHAR(50) NOT NULL,
 	PRIMARY  KEY(id_joueur)
 );
 
