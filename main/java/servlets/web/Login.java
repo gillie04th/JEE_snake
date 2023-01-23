@@ -8,15 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 /**
  * Servlet implementation class Login
  */
 @WebServlet("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static Logger log = Logger.getLogger(Login.class.getName());
+	//static Logger log = Logger.getLogger(Login.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -52,8 +50,8 @@ public class Login extends HttpServlet {
 			
 			response.sendRedirect(request.getContextPath() + "/home");
 		}else {
-			log.debug("Hello this is a debug message");
-			log.info("Hello this is an info message");
+			//log.debug("Hello this is a debug message");
+			//log.info("Hello this is an info message");
 			request.setAttribute("wrongCredential", true);
 			doGet(request, response);
 		}
