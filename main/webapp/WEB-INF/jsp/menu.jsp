@@ -18,6 +18,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/snake/profile">Vos informations</a></li>
+            <li><a class="dropdown-item" href="/snake/logout">Se déconnecter</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/snake/unregister">Supprimer le compte</a></li>
           </ul>

@@ -2,8 +2,8 @@
 <%@ include file="header.jsp" %>
 <%@ include file="menu.jsp" %>
 
-<div class="bg-success" style="padding: 10px 50px;">
-	<h1>Bienvenu ${joueur} !</h1>
+<div class="" style="padding: 10px 50px;">
+	<h1>Bienvenu ${sessionScope.joueur} !</h1>
 	
 	<div class="d-flex flex-wrap justify-content-around">
 		
