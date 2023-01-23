@@ -1,4 +1,4 @@
-
+package servlets.web;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Ranking
+ * Servlet implementation class Unregister
  */
-@WebServlet("/ranking")
-public class Ranking extends HttpServlet {
+@WebServlet("/unregister")
+public class Unregister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ranking() {
+    public Unregister() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,10 +27,18 @@ public class Ranking extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.setAttribute("title", "Classement");
+		request.setAttribute("title", "Désinscription");
 		request.setAttribute("joueur", "toto");
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ranking.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/unregister.jsp").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }
