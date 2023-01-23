@@ -1,4 +1,4 @@
-
+package servlets.web;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Unregister
+ * Servlet implementation class Shop
  */
-@WebServlet("/unregister")
-public class Unregister extends HttpServlet {
+@WebServlet("/shop")
+public class Shop extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Unregister() {
+    public Shop() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,10 +27,10 @@ public class Unregister extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.setAttribute("title", "Désinscription");
+		request.setAttribute("title", "Boutique");
 		request.setAttribute("joueur", "toto");
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/unregister.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/shop.jsp").forward(request, response);
 	}
 
 	/**
