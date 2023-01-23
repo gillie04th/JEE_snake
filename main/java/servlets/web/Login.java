@@ -32,7 +32,7 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		request.setAttribute("title", "Connexion");
-		request.setAttribute("joueur", "toto");
+		
 		request.setAttribute("wrongCredential", request.getAttribute("wrongCredential"));
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
