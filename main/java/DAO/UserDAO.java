@@ -1,7 +1,5 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +9,9 @@ import java.util.List;
 
 import models.User;
 
-public class UserDAO {
-
-	    private Connection connexion;
+public class UserDAO extends DAO {
 	    
-	    public List<User> recupererUtilisateurs() {
+	    public List<User> getUsers() {
 	        List<User> utilisateurs = new ArrayList<User>();
 	        Statement statement = null;
 	        ResultSet resultat = null;
@@ -26,15 +22,16 @@ public class UserDAO {
 	            statement = connexion.createStatement();
 
 	            // Exécution de la requête
-	            resultat = statement.executeQuery("SELECT nom, prenom FROM noms;");
+	            resultat = statement.executeQuery("SELECT * FROM Joueur;");
 
 	            // Récupération des données
 	            while (resultat.next()) {
-	            	int id = resultat.getInt("id");
-	                String nom = resultat.getString("nom");
-	                String email = resultat.getString("email");
+	            	int id = resultat.getInt("id_joueur");
+	                String nom = resultat.getString("pseudo");
+	                String email = resultat.getString("login");
+	                String password = resultat.getString("password");
 	                
-	                User utilisateur = new User(id, nom, email);
+	                User utilisateur = new User(id, nom, email, password);
 	                
 	                utilisateurs.add(utilisateur);
 	            }
@@ -55,27 +52,14 @@ public class UserDAO {
 	        return utilisateurs;
 	    }
 	    
-	    private void loadDatabase() {
-	        // Chargement du driver
-	        try {
-	            Class.forName("com.mysql.jdbc.Driver");
-	        } catch (ClassNotFoundException e) {
-	        }
-
-	        try {
-	            connexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaee", "root", "");
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    
-	    public void ajouterUtilisateur(User utilisateur) {
+	    public void addUser(User utilisateur) {
 	        loadDatabase();
 	        
 	        try {
-	            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO noms(nom, prenom) VALUES(?, ?);");
-	            preparedStatement.setString(1, utilisateur.getNom());
-	            preparedStatement.setString(2, utilisateur.getEmail());
+	            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO joueurs(login, password, pseudo) VALUES(?, ?, ?);");
+	            preparedStatement.setString(1, utilisateur.getEmail());
+	            preparedStatement.setString(2, utilisateur.getPassword());
+	            preparedStatement.setString(2, utilisateur.getName());
 	            
 	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
