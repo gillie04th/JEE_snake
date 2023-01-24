@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import DAO.UserDAO;
 
 /**
  * Servlet implementation class Login
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 @WebServlet("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static Logger log = Logger.getLogger(Login.class.getName());
+	//static Logger log = Logger.getLogger(Login.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -35,6 +35,10 @@ public class Login extends HttpServlet {
 		
 		request.setAttribute("wrongCredential", request.getAttribute("wrongCredential"));
 		
+		
+		UserDAO userDAO = new UserDAO();
+		request.setAttribute("users", userDAO.getUsers());
+		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
 	}
 
@@ -44,16 +48,15 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// doGet(request, response);
 		
-		//System.out.println(request.getParameter("email") + " " + request.getParameter("password") + " " + request.getContextPath() + "/home");
-		
 		if(request.getParameter("email") != "" && request.getParameter("password") != "") {
 			
 			request.getSession().setAttribute("joueur", request.getParameter("email"));
 			
+			
 			response.sendRedirect(request.getContextPath() + "/home");
 		}else {
-			log.debug("Hello this is a debug message");
-			log.info("Hello this is an info message");
+			//log.debug("Hello this is a debug message");
+			//log.info("Hello this is an info message");
 			request.setAttribute("wrongCredential", true);
 			doGet(request, response);
 		}
