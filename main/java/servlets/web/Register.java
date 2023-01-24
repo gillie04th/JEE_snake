@@ -46,6 +46,8 @@ public class Register extends HttpServlet {
 		if(pseudo.isEmpty()) {
 			errors.add("Veuillez renseigner votre pseudo!");
 		}
+		/*else if(
+		 */
 		else {
 			request.setAttribute("pseudo", pseudo);
 		}
