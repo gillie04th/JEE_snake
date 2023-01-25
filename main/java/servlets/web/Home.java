@@ -28,7 +28,7 @@ public class Home extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(request.getSession().getAttribute("joueur") != null) {
+		if(request.getSession().getAttribute("id") != null) {
 			
 			request.setAttribute("title", "Accueil");
 			

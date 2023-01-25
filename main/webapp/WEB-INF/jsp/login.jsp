@@ -3,6 +3,13 @@
 
 <div class="mx-8 my-2" style="padding: 100px 0px">
 
+<c:if test="${noCredentialGiven} == true">
+	<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
+	  Le mot de passe et le login ne peuvent pas être vide.
+	</div>
+	<c:set var="noCredentialGiven" value="${null}" />
+</c:if>
+
 <c:if test="${wrongCredential} == true">
 	<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
 	  Vos identifiants sont incorrects, veuillez entrer des informations valides.

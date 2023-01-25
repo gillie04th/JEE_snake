@@ -89,6 +89,46 @@ public class UserDAO extends DAO {
 	    }
 	    
 	    
+	    public User isUserRegistered(String login, String password) {
+	    	User user = new User();
+	        Statement statement = null;
+	        ResultSet resultat = null;
+
+	        loadDatabase();
+	        
+	        try {
+	            statement = connexion.createStatement();
+
+	            // Exécution de la requête
+	            PreparedStatement preparedStatement = connexion.prepareStatement("SELECT * FROM Joueur where login = ? and password = ?;");
+	            preparedStatement.setString(1, login);
+	            preparedStatement.setString(2, password);
+	            resultat = preparedStatement.executeQuery();
+
+	            // Récupération des données
+	            while (resultat.next()) {
+	                user.setId(resultat.getInt("id_joueur"));
+	                user.setName(resultat.getString("pseudo"));
+	                user.setEmail(resultat.getString("login"));
+	                user.setPassword(resultat.getString("password"));
+	            }
+	        } catch (SQLException e) {
+	        } finally {
+	            // Fermeture de la connexion
+	            try {
+	                if (resultat != null)
+	                    resultat.close();
+	                if (statement != null)
+	                    statement.close();
+	                if (connexion != null)
+	                    connexion.close();
+	            } catch (SQLException ignore) {
+	            }
+	        }
+	        
+	        return user;
+	    }
+	    
 	    public void addUser(User utilisateur) {
 	        loadDatabase();
 	        
