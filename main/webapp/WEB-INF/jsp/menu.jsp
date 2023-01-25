@@ -12,22 +12,18 @@
 		<li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/snake/shop">Boutique</a>
         </li>
-        <li class="nav-item dropdown active" aria-current="page">
+      </ul>
+        <div class="nav-item dropdown active text-white mx-2" aria-current="page">
           <a class="nav-link dropdown-toggle" href="/snake/profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ${joueur}
+            ${sessionScopre.name}
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu dropdown-menu-end"> 
             <li><a class="dropdown-item" href="/snake/profile">Vos informations</a></li>
             <li><a class="dropdown-item" href="/snake/logout">Se déconnecter</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/snake/unregister">Supprimer le compte</a></li>
           </ul>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+        </div>
     </div>
   </div>
 </nav>
