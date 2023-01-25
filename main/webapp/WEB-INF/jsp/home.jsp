@@ -3,7 +3,12 @@
 <%@ include file="menu.jsp" %>
 
 <div class="" style="padding: 10px 50px;">
-	<h1>Bienvenu ${sessionScope.joueur} !</h1>
+	
+	<div class="card my-5 mx-auto" style="width:500px;">
+	  <div class="card-body text-center">
+	    <h3>Bienvenu ${sessionScope.name} !</h3>
+	  </div>
+	</div>
 	
 	<div class="d-flex flex-wrap justify-content-around">
 		

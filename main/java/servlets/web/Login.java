@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DAO.UserDAO;
+import models.User;
 
 /**
  * Servlet implementation class Login
@@ -35,10 +36,6 @@ public class Login extends HttpServlet {
 		
 		request.setAttribute("wrongCredential", request.getAttribute("wrongCredential"));
 		
-		
-		UserDAO userDAO = new UserDAO();
-		request.setAttribute("users", userDAO.getUsers());
-		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
 	}
 
@@ -47,17 +44,24 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// doGet(request, response);
-		
+		UserDAO userDAO = new UserDAO();
 		if(request.getParameter("email") != "" && request.getParameter("password") != "") {
-			
-			request.getSession().setAttribute("joueur", request.getParameter("email"));
-			
-			
-			response.sendRedirect(request.getContextPath() + "/home");
+			User user = userDAO.isUserRegistered(request.getParameter("email"), request.getParameter("password"));
+			System.out.println(user);
+			if(user.getId() != 0) {
+				request.getSession().setAttribute("login", user.getEmail());
+				request.getSession().setAttribute("name", user.getName());
+				request.getSession().setAttribute("id", user.getId());
+				response.sendRedirect(request.getContextPath() + "/home");
+			} else {
+				request.setAttribute("wrongCredential", true);
+				doGet(request, response);
+			}
 		}else {
 			//log.debug("Hello this is a debug message");
 			//log.info("Hello this is an info message");
-			request.setAttribute("wrongCredential", true);
+			request.setAttribute("email", request.getParameter("email"));
+			request.setAttribute("noCredentialGiven", true);
 			doGet(request, response);
 		}
 	}
