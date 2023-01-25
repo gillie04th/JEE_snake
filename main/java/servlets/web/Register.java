@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.UserDAO;
+import models.User;
+
 /**
  * Servlet implementation class Register
  */
@@ -40,22 +43,36 @@ public class Register extends HttpServlet {
 		
 		ArrayList<String> errors = new ArrayList<String>();
 		
+		var userDAO = UserDAO.getInstance();
+		
+		var listPseudo = userDAO.getPseudos();
+		
 		
 		var pseudo = request.getParameter("pseudo");
 		
+		//Verif du pseudo
 		if(pseudo.isEmpty()) {
 			errors.add("Veuillez renseigner votre pseudo!");
+		}
+		else if(listPseudo.contains(pseudo)) {
+			errors.add("Votre pseudo a déjà été pris, veuillez changer!");
 		}
 		else {
 			request.setAttribute("pseudo", pseudo);
 		}
 		
 		
+		var listEmails = userDAO.getEmails();
+		
+		//Verif du mail
 		var email = request.getParameter("email");
 		var emailConfirm = request.getParameter("emailConfirm");
 		
 		if(email.isEmpty()) {
 			errors.add("Veuillez renseigner votre email!");
+		}
+		else if(listEmails.contains(email)) {
+			errors.add("Votre email a déjà été pris, veuillez changer!");
 		}
 		else if(emailConfirm.isEmpty()) {
 			errors.add("Veuillez confirmer votre email!");
@@ -68,7 +85,7 @@ public class Register extends HttpServlet {
 			request.setAttribute("emailConfirm", emailConfirm);
 		}
 		
-		
+		//Verif du mot de passe
 		var password = request.getParameter("password");
 		var passwordConfirm = request.getParameter("passwordConfirm");
 				
@@ -85,10 +102,16 @@ public class Register extends HttpServlet {
 			errors.add("Votre mot de passe n'est pas confirmé!");
 		}	
 		
-		
-		request.setAttribute("errors", errors);
-		
-		doGet(request, response);
+		if(!errors.isEmpty()) {
+			request.setAttribute("errors", errors);
+			doGet(request, response);
+		}
+		else {
+			var newUser = new User(pseudo, email, password);
+			userDAO.addUser(newUser);
+			
+			response.sendRedirect(request.getContextPath() + "/home");
+		}	
 		
 	}
 
