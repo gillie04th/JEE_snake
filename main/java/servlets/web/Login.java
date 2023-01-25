@@ -36,7 +36,7 @@ public class Login extends HttpServlet {
 		request.setAttribute("wrongCredential", request.getAttribute("wrongCredential"));
 		
 		
-		UserDAO userDAO = new UserDAO();
+		UserDAO userDAO = UserDAO.getInstance();
 		request.setAttribute("users", userDAO.getUsers());
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);

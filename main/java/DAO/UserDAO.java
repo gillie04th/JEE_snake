@@ -11,6 +11,20 @@ import models.User;
 
 public class UserDAO extends DAO {
 	    
+		private static UserDAO instance;
+	
+		private UserDAO() {
+			
+		}
+		
+		public static UserDAO getInstance() {
+			if(instance == null) {
+				instance = new UserDAO();
+			}
+			return instance;
+		}
+		
+	
 	    public List<User> getUsers() {
 	        List<User> utilisateurs = new ArrayList<User>();
 	        Statement statement = null;
@@ -26,12 +40,11 @@ public class UserDAO extends DAO {
 
 	            // Récupération des données
 	            while (resultat.next()) {
-	            	int id = resultat.getInt("id_joueur");
 	                String nom = resultat.getString("pseudo");
-	                String email = resultat.getString("login");
+	                String email = resultat.getString("email");
 	                String password = resultat.getString("password");
 	                
-	                User utilisateur = new User(id, nom, email, password);
+	                User utilisateur = new User(nom, email, password);
 	                
 	                utilisateurs.add(utilisateur);
 	            }
@@ -52,14 +65,38 @@ public class UserDAO extends DAO {
 	        return utilisateurs;
 	    }
 	    
+	    public List<String> getPseudos() {
+			var listUser = getUsers();
+			var listPseudos = new ArrayList<String>();
+			
+			for(User user : listUser) {
+				listPseudos.add(user.getName());
+			}
+			
+			return listPseudos;
+	    }
+	    
+	    
+	    public List<String> getEmails() {
+			var listUser = getUsers();
+			var listEmails = new ArrayList<String>();
+			
+			for(User user : listUser) {
+				listEmails.add(user.getEmail());
+			}
+			
+			return listEmails;
+	    }
+	    
+	    
 	    public void addUser(User utilisateur) {
 	        loadDatabase();
 	        
 	        try {
-	            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO joueurs(login, password, pseudo) VALUES(?, ?, ?);");
+	            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO Joueur(email, password, pseudo) VALUES(?, ?, ?);");
 	            preparedStatement.setString(1, utilisateur.getEmail());
 	            preparedStatement.setString(2, utilisateur.getPassword());
-	            preparedStatement.setString(2, utilisateur.getName());
+	            preparedStatement.setString(3, utilisateur.getName());
 	            
 	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {

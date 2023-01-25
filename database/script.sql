@@ -1,5 +1,5 @@
 CREATE TABLE Joueur(
-	id_joueur int NOT NULL,
+	id_joueur int NOT NULL AUTO_INCREMENT,
 	email VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
 	pseudo VARCHAR(50) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE Joueur(
 );
 
 CREATE TABLE Partie(
-	id_partie int NOT NULL,
+	id_partie int NOT NULL AUTO_INCREMENT,
 	map_name VARCHAR(50) NOT NULL,
 	temps_depart TIMESTAMP NOT NULL,
 	id_joueur_gagnant int,
