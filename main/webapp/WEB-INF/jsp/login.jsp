@@ -44,7 +44,7 @@
   
   <div class="mb-2">
 	<a href="/snake/register">
-		Pas de comte, enregistrez-vous !
+		Pas de compte, enregistrez-vous !
   	</a>
   </div>
   
