@@ -89,8 +89,7 @@ public class UserDAO extends DAO {
 	    }
 	    
 	    
-	    public User isUserRegistered(String login, String password) {
-	    	User user = new User();
+	    public User isUserRegistered(String email, String password) {
 	        Statement statement = null;
 	        ResultSet resultat = null;
 
@@ -100,17 +99,18 @@ public class UserDAO extends DAO {
 	            statement = connexion.createStatement();
 
 	            // Exécution de la requête
-	            PreparedStatement preparedStatement = connexion.prepareStatement("SELECT * FROM Joueur where login = ? and password = ?;");
-	            preparedStatement.setString(1, login);
+	            PreparedStatement preparedStatement = connexion.prepareStatement("SELECT * FROM Joueur where email = ? and password = ?;");
+	            preparedStatement.setString(1, email);
 	            preparedStatement.setString(2, password);
 	            resultat = preparedStatement.executeQuery();
 
 	            // Récupération des données
 	            while (resultat.next()) {
-	                user.setId(resultat.getInt("id_joueur"));
-	                user.setName(resultat.getString("pseudo"));
-	                user.setEmail(resultat.getString("login"));
-	                user.setPassword(resultat.getString("password"));
+	                return new User(
+                            resultat.getInt("id_joueur"),
+                            resultat.getString("pseudo"),
+                            resultat.getString("email"),
+                            resultat.getString("password"));
 	            }
 	        } catch (SQLException e) {
 	        } finally {
@@ -126,7 +126,7 @@ public class UserDAO extends DAO {
 	            }
 	        }
 	        
-	        return user;
+	        return null;
 	    }
 	    
 	    public void addUser(User utilisateur) {
