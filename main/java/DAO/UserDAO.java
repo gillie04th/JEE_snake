@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.ModelException;
 import models.User;
 
 public class UserDAO implements UserDAOInterface {
@@ -19,7 +20,7 @@ public class UserDAO implements UserDAOInterface {
     }
 
     @Override
-    public void add(User user) {
+    public void add(User user) throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
 
@@ -32,12 +33,27 @@ public class UserDAO implements UserDAOInterface {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                if (connexion != null) {
+                    connexion.rollback();
+                }
+            } catch (SQLException e2) {
+            }
+            throw new DAOException("Impossible de communiquer avec la base de données");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DAOException("Impossible de communiquer avec la base de données");
+            }
         }
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAll() throws DAOException {
         List<User> users = new ArrayList<User>();
         Connection connexion = null;
         Statement statement = null;
@@ -61,7 +77,18 @@ public class UserDAO implements UserDAOInterface {
                 users.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Impossible de communiquer avec la base de données");
+        } catch (ModelException e) {
+            throw new DAOException("Les données de la base sont invalides");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DAOException("Impossible de communiquer avec la base de données");
+            }
         }
         return users;
     }
@@ -77,24 +104,33 @@ public class UserDAO implements UserDAOInterface {
     }
     
     public List<String> getPseudos() {
-		var listUser = getAll();
-		var listPseudos = new ArrayList<String>();
-		
-		for(User user : listUser) {
-			listPseudos.add(user.getName());
-		}
-		
-		return listPseudos;
+    	List<User> users;
+    	ArrayList<String> pseudos = new ArrayList<String>();
+    	try {
+	    	users = getAll();
+			
+			for(User user : users) {
+				pseudos.add(user.getName());
+			}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return pseudos;
     }
     
     public List<String> getEmails() {
-		var listUser = getAll();
-		var listEmails = new ArrayList<String>();
-		
-		for(User user : listUser) {
-			listEmails.add(user.getEmail());
-		}
-		return listEmails;
+		List<User> users;
+		ArrayList<String> emails = new ArrayList<String>();
+		try {
+			users = getAll();
+			
+			for(User user : users) {
+				emails.add(user.getEmail());
+			}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+		return emails;
     }
     
     public User isUserRegistered(String email, String password) {
@@ -136,6 +172,5 @@ public class UserDAO implements UserDAOInterface {
         
         return null;
     }
-
 
 }
