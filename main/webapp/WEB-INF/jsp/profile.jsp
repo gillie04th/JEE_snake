@@ -57,6 +57,30 @@
 		  </form>
 	  	</div>
 	</div>
+	
+	<div class="card my-5 mx-auto" style="width:90%;">
+		<h4 class="card-header">
+	    	Supprimer votre compte
+	  	</h4>
+	  	<div class="card-body">
+	      <form method="post" action="profile">
+		      		  
+			  <div class="mb-3 row">
+			    <label for="password" class="col-sm-2 col-form-label">Mot de passe : </label>
+			    <div class="col-sm-10">
+			      <input type="password" class="form-control" id="password" name="password">
+			    </div>
+			  </div>
+			  
+			  <div class="mb-3 row text-center">
+			      <div class="col">
+			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submit" style="width:auto">
+			      	<img src="images/info.gif" style="width:50px; height:50px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider les modifications" disabled/>
+			      </div>
+			  </div>
+		  </form>
+	  	</div>
+	</div>
 
 </div>
 
