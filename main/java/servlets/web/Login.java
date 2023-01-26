@@ -51,7 +51,7 @@ public class Login extends HttpServlet {
 		if(request.getParameter("email") != "" && request.getParameter("password") != "") {
 			User user = userDAO.isUserRegistered(request.getParameter("email"), request.getParameter("password"));
 			System.out.println(user);
-			if(user.getId() != 0) {
+			if(user != null) {
 				request.getSession().setAttribute("login", user.getEmail());
 				request.getSession().setAttribute("name", user.getName());
 				request.getSession().setAttribute("id", user.getId());
