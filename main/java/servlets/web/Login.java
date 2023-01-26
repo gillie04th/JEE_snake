@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.DAOFactory;
 import DAO.UserDAO;
 import models.User;
 
@@ -18,13 +19,15 @@ import models.User;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//static Logger log = Logger.getLogger(Login.class.getName());
+	private UserDAO userDAO;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Login() {
         super();
-        // TODO Auto-generated constructor stub
+		DAOFactory factory = DAOFactory.getInstance();
+		this.userDAO = (UserDAO) factory.getUserDAO();
     }
 
 	/**
@@ -33,11 +36,8 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		request.setAttribute("title", "Connexion");
-		
 		request.setAttribute("wrongCredential", request.getAttribute("wrongCredential"));
-		
-		UserDAO userDAO = UserDAO.getInstance();
-		request.setAttribute("users", userDAO.getUsers());
+		request.setAttribute("users", userDAO.getAll());
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
 	}
@@ -47,10 +47,8 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// doGet(request, response);
-		UserDAO userDAO = UserDAO.getInstance();
 		if(request.getParameter("email") != "" && request.getParameter("password") != "") {
 			User user = userDAO.isUserRegistered(request.getParameter("email"), request.getParameter("password"));
-			System.out.println(user);
 			if(user != null) {
 				request.getSession().setAttribute("login", user.getEmail());
 				request.getSession().setAttribute("name", user.getName());
