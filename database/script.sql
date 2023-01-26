@@ -1,3 +1,6 @@
+use db_snake;
+
+DROP TABLE IF EXISTS `Joueur`;
 CREATE TABLE Joueur(
 	id_joueur int NOT NULL AUTO_INCREMENT,
 	email VARCHAR(50) NOT NULL,
@@ -6,6 +9,14 @@ CREATE TABLE Joueur(
 	PRIMARY  KEY(id_joueur)
 );
 
+LOCK TABLES `Joueur` WRITE;
+/*!40000 ALTER TABLE `Joueur` DISABLE KEYS */;
+INSERT INTO `Joueur` (email, password, pseudo) VALUES ('darkSasukedu49@naroute.fr','12345678','darkSasukéDu49'),('titouanLeBoss@moto.fr','1234678','XxtitouanKilleurDu59xX');
+/*!40000 ALTER TABLE `Joueur` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+DROP TABLE IF EXISTS `Partie`;
 CREATE TABLE Partie(
 	id_partie int NOT NULL AUTO_INCREMENT,
 	map_name VARCHAR(50) NOT NULL,

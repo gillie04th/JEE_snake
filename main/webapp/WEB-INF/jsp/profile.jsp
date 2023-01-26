@@ -26,13 +26,6 @@
 			  </div>
 			  
 			  <div class="mb-3 row">
-			  	<label class="col-sm-2 col-form-label">Nouvel email :</label>
-			  	<div class="col-sm-10">
-			      <input type="text" class="form-control" id="newEmail" name="newEmail" value="${sessionScope.login}">
-			    </div>
-			  </div>
-			  
-			  <div class="mb-3 row">
 			    <label for="password" class="col-sm-2 col-form-label">Nouveau mot de passe : </label>
 			    <div class="col-sm-10">
 			      <input type="password" class="form-control" id="newPassword" name="newPassword">
@@ -57,8 +50,8 @@
 			  
 			  <div class="mb-3 row text-center">
 			      <div class="col">
-			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submit" style="width:auto">
-			      	<img src="images/info.gif" style="width:50px; height:50px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider les modifications" disabled/>
+			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submit" style="width:auto" disabled>
+			      	<img src="images/info.gif" style="width:25px; height:25px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider les modifications"/>
 			      </div>
 			  </div>
 		  </form>
