@@ -20,6 +20,7 @@ import models.User;
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
+	private ArrayList<String> errors;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -28,6 +29,7 @@ public class Register extends HttpServlet {
         super();
 		DAOFactory factory = DAOFactory.getInstance();
 		this.userDAO = (UserDAO) factory.getUserDAO();
+		this.errors = new ArrayList<String>();
     }
 
 	/**
@@ -44,8 +46,9 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.errors.clear();
 		
-		ArrayList<String> errors = new ArrayList<String>();
+		try {
 		
 		var listPseudo = userDAO.getPseudos();
 		var pseudo = request.getParameter("pseudo");
@@ -60,7 +63,6 @@ public class Register extends HttpServlet {
 		else {
 			request.setAttribute("pseudo", pseudo);
 		}
-		
 		
 		var listEmails = userDAO.getEmails();
 		
@@ -112,7 +114,9 @@ public class Register extends HttpServlet {
 			
 			response.sendRedirect(request.getContextPath() + "/home");
 		}	
-		
+		} catch (Exception e) {
+			request.setAttribute("errors", errors);
+		}
 	}
 
 }
