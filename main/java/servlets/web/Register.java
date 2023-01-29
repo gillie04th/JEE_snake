@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.DAOFactory;
 import DAO.UserDAO;
 import models.User;
 
@@ -18,12 +19,17 @@ import models.User;
 @WebServlet("/register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private UserDAO userDAO;
+	private ArrayList<String> errors;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Register() {
         super();
+		DAOFactory factory = DAOFactory.getInstance();
+		this.userDAO = (UserDAO) factory.getUserDAO();
+		this.errors = new ArrayList<String>();
     }
 
 	/**
@@ -40,14 +46,11 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.errors.clear();
 		
-		ArrayList<String> errors = new ArrayList<String>();
-		
-		var userDAO = UserDAO.getInstance();
+		try {
 		
 		var listPseudo = userDAO.getPseudos();
-		
-		
 		var pseudo = request.getParameter("pseudo");
 		
 		//Verif du pseudo
@@ -60,7 +63,6 @@ public class Register extends HttpServlet {
 		else {
 			request.setAttribute("pseudo", pseudo);
 		}
-		
 		
 		var listEmails = userDAO.getEmails();
 		
@@ -108,11 +110,13 @@ public class Register extends HttpServlet {
 		}
 		else {
 			var newUser = new User(pseudo, email, password);
-			userDAO.addUser(newUser);
+			userDAO.add(newUser);
 			
 			response.sendRedirect(request.getContextPath() + "/home");
 		}	
-		
+		} catch (Exception e) {
+			request.setAttribute("errors", errors);
+		}
 	}
 
 }

@@ -74,11 +74,18 @@
 			  
 			  <div class="mb-3 row text-center">
 			      <div class="col">
+<<<<<<< HEAD
 			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submitSuppr" style="width:auto" disabled>
 			      	<img src="images/info.gif" style="width:25px; height:25px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider les modifications"/>
+=======
+			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submit" style="width:auto">
+			      	<img src="images/info.gif" style="width:25px; height:25px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider la suppresion du compte" disabled/>
+>>>>>>> af4b8f5f7fcbc767169284685cbd422ce0af46f1
 			      </div>
 			  </div>
+			  
 		  </form>
+		  
 	  	</div>
 	</div>
 
