@@ -25,7 +25,7 @@ public class LoginValidator extends Validator {
 				this.results.add("Les identifiants fournis sont incorrects");
 			}
 		}else {
-			this.results.add("Le login et le mot de passe ne sont pas renseignés");
+			this.results.add("Le login et/ou le mot de passe ne sont pas renseignés");
 		}
 	}
 }
