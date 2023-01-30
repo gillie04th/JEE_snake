@@ -43,7 +43,7 @@ public class Register extends HttpServlet {
 		
 		registerValidator.verifierRegister(request);
 		
-		var results = registerValidator.getResult();
+		var results = registerValidator.getResults();
 		
 		if(!results.isEmpty()) {
 			doGet(request, response);			

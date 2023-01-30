@@ -14,14 +14,14 @@
 		      <div class="mb-3 row">
 			    <label class="col-sm-2 col-form-label">Nom :</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="name" name="name" value="${sessionScope.user.name}">
+			      <input type="text" class="form-control" id="name" name="name" value="${sessionScope.name}">
 			    </div>
 			  </div>
 			  
 			  <div class="mb-3 row">
 			  	<label class="col-sm-2 col-form-label">Email :</label>
 			  	<div class="col-sm-10">
-			      <input type="text" class="form-control" id="email" name="email" value="${sessionScope.user.login}">
+			      <input type="text" class="form-control" id="email" name="email" value="${sessionScope.login}">
 			    </div>
 			  </div>
 			  
@@ -60,7 +60,7 @@
 	
 	<div class="card my-5 mx-auto" style="width:90%;">
 		<h4 class="card-header">
-	    	Supprimer votre compte (ceci est dï¿½finitif)
+	    	Supprimer votre compte (ceci est définitif)
 	  	</h4>
 	  	<div class="card-body">
 	      <form method="post" action="unregister">
