@@ -1,7 +1,6 @@
 package servlets.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DAO.DAOFactory;
-import DAO.UserDAO;
-import models.User;
+import validators.forms.RegisterValidator;
 
 /**
  * Servlet implementation class Register
@@ -19,17 +16,12 @@ import models.User;
 @WebServlet("/register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UserDAO userDAO;
-	private ArrayList<String> errors;
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Register() {
-        super();
-		DAOFactory factory = DAOFactory.getInstance();
-		this.userDAO = (UserDAO) factory.getUserDAO();
-		this.errors = new ArrayList<String>();
+        super();		
     }
 
 	/**
@@ -46,76 +38,18 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.errors.clear();
 		
-		try {
+		RegisterValidator registerValidator = new RegisterValidator();
 		
-		var listPseudo = userDAO.getPseudos();
-		var pseudo = request.getParameter("pseudo");
+		registerValidator.verifierRegister(request);
 		
-		//Verif du pseudo
-		if(pseudo.isEmpty()) {
-			errors.add("Veuillez renseigner votre pseudo!");
-		}
-		else if(listPseudo.contains(pseudo)) {
-			errors.add("Votre pseudo a déjà été pris, veuillez changer!");
+		var results = registerValidator.getResult();
+		
+		if(!results.isEmpty()) {
+			doGet(request, response);			
 		}
 		else {
-			request.setAttribute("pseudo", pseudo);
-		}
-		
-		var listEmails = userDAO.getEmails();
-		
-		//Verif du mail
-		var email = request.getParameter("email");
-		var emailConfirm = request.getParameter("emailConfirm");
-		
-		if(email.isEmpty()) {
-			errors.add("Veuillez renseigner votre email!");
-		}
-		else if(listEmails.contains(email)) {
-			errors.add("Votre email a déjà été pris, veuillez changer!");
-		}
-		else if(emailConfirm.isEmpty()) {
-			errors.add("Veuillez confirmer votre email!");
-		}
-		else if(!email.equals(emailConfirm)) {
-			errors.add("Votre email n'est pas confirmé!");
-		}	
-		else {
-			request.setAttribute("email", email);
-			request.setAttribute("emailConfirm", emailConfirm);
-		}
-		
-		//Verif du mot de passe
-		var password = request.getParameter("password");
-		var passwordConfirm = request.getParameter("passwordConfirm");
-				
-		if(password.isEmpty()) {
-			errors.add("Veuillez renseigner votre mot de passe!");
-		}
-		else if(password.length()<8) {
-			errors.add("Votre mot de passe doit doit être au moins de 8 charactères!");
-		}
-		else if(passwordConfirm.isEmpty()) {
-			errors.add("Veuillez confirmer votre mot de passe!");
-		}
-		else if(!password.equals(passwordConfirm)) {
-			errors.add("Votre mot de passe n'est pas confirmé!");
-		}	
-		
-		if(!errors.isEmpty()) {
-			request.setAttribute("errors", errors);
-			doGet(request, response);
-		}
-		else {
-			var newUser = new User(pseudo, email, password);
-			userDAO.add(newUser);
-			
 			response.sendRedirect(request.getContextPath() + "/home");
-		}	
-		} catch (Exception e) {
-			request.setAttribute("errors", errors);
 		}
 	}
 

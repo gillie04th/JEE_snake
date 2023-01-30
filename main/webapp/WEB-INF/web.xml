@@ -42,7 +42,16 @@
     <servlet-name>Profile</servlet-name>
     <url-pattern>/profile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>Unregister</servlet-name>
+    <servlet-class>servlets.web.Unregister</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Unregister</servlet-name>
+    <url-pattern>/unregister</url-pattern>
+  </servlet-mapping>
   -->
+  
   <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>

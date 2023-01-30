@@ -4,7 +4,7 @@
 
 <div class="mx-8 my-2">
 
-	<h1>Bienvenue ${joueur} !</h1>
+	<h1>${joueur}, tu es bien désinscris ! Bonne continuation !</h1>
 
 </div>
 
