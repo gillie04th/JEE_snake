@@ -15,7 +15,7 @@
       </ul>
         <div class="nav-item dropdown active text-white mx-2" aria-current="page">
           <a class="nav-link dropdown-toggle" href="/snake/profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ${sessionScope.name}
+            ${sessionScope.user.name}
           </a>
           <ul class="dropdown-menu dropdown-menu-end"> 
             <li><a class="dropdown-item" href="/snake/profile">Vos informations</a></li>

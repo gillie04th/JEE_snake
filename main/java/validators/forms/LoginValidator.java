@@ -17,9 +17,7 @@ public class LoginValidator extends Validator {
 			UserDAO dao = (UserDAO) DAOFactory.getInstance().getUserDAO();
 			User user = dao.isUserRegistered(login, password);
 			if(user != null) {
-				request.getSession().setAttribute("login", user.getEmail());
-				request.getSession().setAttribute("name", user.getName());
-				request.getSession().setAttribute("id", user.getId());
+				request.getSession().setAttribute("user", user);
 			} else {
 				request.setAttribute("email", request.getParameter("email"));
 				this.results.add("Les identifiants fournis sont incorrects");
