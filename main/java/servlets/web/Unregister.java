@@ -46,10 +46,9 @@ public class Unregister extends HttpServlet {
 		
 		unregisterValidator.verifierUnregister(request);
 		
-		var results = unregisterValidator.getResult();
+		var results = unregisterValidator.getResults();
 		
 		if(!results.isEmpty()) {
-			//response.set
 			response.sendRedirect(request.getContextPath() + "/profile");			
 		}
 		else {
