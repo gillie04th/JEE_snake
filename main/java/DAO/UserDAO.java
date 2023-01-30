@@ -26,6 +26,7 @@ public class UserDAO implements UserDAOInterface {
 
         try {
             connexion = factory.getConnection();
+            
             preparedStatement = connexion.prepareStatement("INSERT INTO Joueur(pseudo, email, password) VALUES(?, ?, ?);");
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
@@ -44,6 +45,7 @@ public class UserDAO implements UserDAOInterface {
         finally {
             try {
                 if (connexion != null) {
+                	connexion.commit();
                     connexion.close();  
                 }
             } catch (SQLException e) {

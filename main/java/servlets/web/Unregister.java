@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 /**
  * Servlet implementation class Unregister
  */
@@ -17,7 +15,6 @@ import org.apache.log4j.Logger;
 public class Unregister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger log = Logger.getLogger(Unregister.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -35,6 +32,7 @@ public class Unregister extends HttpServlet {
 		request.setAttribute("title", "Désinscription");
 		request.setAttribute("joueur", "toto");
 		
+		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/unregister.jsp").forward(request, response);
 	}
 
@@ -42,8 +40,11 @@ public class Unregister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		log.debug(request.getParameter("passwordSuppr"));
+		var session = request.getSession();
+		var id_joueur = session.getAttribute("id");
+		
+		System.out.println(id_joueur);
+
 		doGet(request, response);
 	}
 
