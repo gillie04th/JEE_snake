@@ -60,22 +60,22 @@
 	
 	<div class="card my-5 mx-auto" style="width:90%;">
 		<h4 class="card-header">
-	    	Supprimer votre compte
+	    	Supprimer votre compte (ceci est définitif)
 	  	</h4>
 	  	<div class="card-body">
-	      <form method="post" action="profile">
+	      <form method="post" action="unregister">
 		      		  
 			  <div class="mb-3 row">
 			    <label for="password" class="col-sm-2 col-form-label">Mot de passe : </label>
 			    <div class="col-sm-10">
-			      <input type="password" class="form-control" id="password" name="password">
+			      <input type="password" class="form-control" id="passwordSuppr" name="passwordSuppr">
 			    </div>
 			  </div>
 			  
 			  <div class="mb-3 row text-center">
 			      <div class="col">
-			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submit" style="width:auto">
-			      	<img src="images/info.gif" style="width:25px; height:25px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider la suppresion du compte" disabled/>
+			      	<input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submitSuppr" style="width:auto" disabled>
+			      	<img src="images/info.gif" style="width:25px; height:25px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider les modifications"/>
 			      </div>
 			  </div>
 			  
@@ -96,6 +96,16 @@
 	        document.getElementById('submit').removeAttribute("disabled");
 	    } else {
 	        document.getElementById('submit').setAttribute("disabled", null);
+	    }
+	});
+	
+	pwInputSuppr = document.getElementById("passwordSuppr");
+	pwInputSuppr.addEventListener("keyup", function() {
+	    var nameInput = pwInputSuppr.value;
+	    if (nameInput != "") {
+	        document.getElementById('submitSuppr').removeAttribute("disabled");
+	    } else {
+	        document.getElementById('submitSuppr').setAttribute("disabled", null);
 	    }
 	});
 
