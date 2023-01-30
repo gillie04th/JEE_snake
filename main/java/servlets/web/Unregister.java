@@ -8,12 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet implementation class Unregister
  */
 @WebServlet("/unregister")
 public class Unregister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static Logger log = Logger.getLogger(Unregister.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -39,6 +43,7 @@ public class Unregister extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		log.debug(request.getParameter("passwordSuppr"));
 		doGet(request, response);
 	}
 
