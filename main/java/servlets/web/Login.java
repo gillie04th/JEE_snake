@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import DAO.DAOFactory;
 import DAO.UserDAO;
-import models.User;
+import validators.forms.LoginValidator;
 
 /**
  * Servlet implementation class Login
@@ -55,23 +55,14 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.errors.clear();
-			
-		if(request.getParameter("email") != "" && request.getParameter("password") != "") {
-			User user = userDAO.isUserRegistered(request.getParameter("email"), request.getParameter("password"));
-			if(user != null) {
-				request.getSession().setAttribute("login", user.getEmail());
-				request.getSession().setAttribute("name", user.getName());
-				request.getSession().setAttribute("id", user.getId());
-				response.sendRedirect(request.getContextPath() + "/home");
-			} else {
-				request.setAttribute("wrongCredential", true);
-				doGet(request, response);
-			}
-		} else {
-			log.debug("Hello this is a debug message");
-			log.error("Hello this is an info message");
-			request.setAttribute("email", request.getParameter("email"));
-			this.errors.add("Il manque une partie des informations de connexion");
+		
+		LoginValidator validator = new LoginValidator();
+		validator.validateLogin(request);
+		
+		if(request.getSession().getAttribute("id") != null) {			
+			log.info("Connexion de " + request.getSession().getAttribute("login"));
+			response.sendRedirect(request.getContextPath() + "/home");
+		}else {			
 			doGet(request, response);
 		}
 		
