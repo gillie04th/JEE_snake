@@ -21,7 +21,7 @@ import models.User;
 @WebServlet("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static Logger log = Logger.getLogger(Login.class.getName());
+	private static Logger log;
 	private UserDAO userDAO;
 	private ArrayList<String> errors;
        
@@ -30,6 +30,7 @@ public class Login extends HttpServlet {
      */
     public Login() {
         super();
+        log = Logger.getLogger(Login.class.getName());
 		DAOFactory factory = DAOFactory.getInstance();
 		this.userDAO = (UserDAO) factory.getUserDAO();
 		this.errors = new ArrayList<String>();
@@ -39,14 +40,8 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.errors.clear();
-		try {			
-			request.setAttribute("title", "Connexion");
-			request.setAttribute("wrongCredential", request.getAttribute("wrongCredential"));
-			request.setAttribute("users", userDAO.getAll());
-		} catch (Exception e){
-			this.errors.add(e.getMessage());
-		}
+		
+		request.setAttribute("title", "Connexion");
 		
 		if(!this.errors.isEmpty()) {
 			request.setAttribute("errors", errors);
@@ -60,7 +55,7 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.errors.clear();
-		
+			
 		if(request.getParameter("email") != "" && request.getParameter("password") != "") {
 			User user = userDAO.isUserRegistered(request.getParameter("email"), request.getParameter("password"));
 			if(user != null) {
@@ -72,12 +67,16 @@ public class Login extends HttpServlet {
 				request.setAttribute("wrongCredential", true);
 				doGet(request, response);
 			}
-		}else {
+		} else {
 			log.debug("Hello this is a debug message");
-			log.info("Hello this is an info message");
+			log.error("Hello this is an info message");
 			request.setAttribute("email", request.getParameter("email"));
-			request.setAttribute("noCredentialGiven", true);
+			this.errors.add("Il manque une partie des informations de connexion");
 			doGet(request, response);
+		}
+		
+		if(!this.errors.isEmpty()) {
+			request.setAttribute("errors", errors);
 		}
 	}
 
