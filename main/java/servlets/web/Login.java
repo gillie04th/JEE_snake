@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import DAO.DAOFactory;
-import DAO.UserDAO;
 import validators.forms.LoginValidator;
 
 /**
@@ -22,7 +20,6 @@ import validators.forms.LoginValidator;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log;
-	private UserDAO userDAO;
 	private ArrayList<String> errors;
        
     /**
@@ -31,8 +28,6 @@ public class Login extends HttpServlet {
     public Login() {
         super();
         log = Logger.getLogger(Login.class.getName());
-		DAOFactory factory = DAOFactory.getInstance();
-		this.userDAO = (UserDAO) factory.getUserDAO();
 		this.errors = new ArrayList<String>();
     }
 
@@ -58,17 +53,15 @@ public class Login extends HttpServlet {
 		
 		LoginValidator validator = new LoginValidator();
 		validator.validateLogin(request);
+		this.errors = validator.getResults();
 		
 		if(request.getSession().getAttribute("id") != null) {			
 			log.info("Connexion de " + request.getSession().getAttribute("login"));
 			response.sendRedirect(request.getContextPath() + "/home");
-		}else {			
+		}else {
 			doGet(request, response);
 		}
 		
-		if(!this.errors.isEmpty()) {
-			request.setAttribute("errors", errors);
-		}
 	}
 
 }

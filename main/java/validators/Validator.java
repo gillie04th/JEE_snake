@@ -9,7 +9,7 @@ public abstract class Validator {
 		this.results = new ArrayList<String>();
 	}
 	
-	public ArrayList<String> getResult() {
+	public ArrayList<String> getResults() {
 		return this.results;
 	}
 }

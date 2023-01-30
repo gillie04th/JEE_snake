@@ -3,26 +3,13 @@
 
 <div class="mx-8 my-2" style="padding: 100px 0px">
 
-<c:if test="${noCredentialGiven} == true">
-	<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
-	  Le mot de passe et le login ne peuvent pas être vide.
-	</div>
-	<c:set var="noCredentialGiven" value="${null}" />
-</c:if>
-
-<c:if test="${wrongCredential} == true">
-	<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
-	  Vos identifiants sont incorrects, veuillez entrer des informations valides.
-	</div>
-	<c:set var="wrongCredential" value="${null}" />
-</c:if>
-
-<c:if test="${unauthorized} == true">
-	<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
-	  L'action demandee n'est pas autorisee, veuillez vous connecter.
-	</div>
-	<c:set var="unauthorized" value="${null}" />
-</c:if>
+<c:forEach items="${ errors }" var="error">
+	<c:if test="${ !errors.isEmpty()}">
+		<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
+		  <c:out value="${ error }"/>
+		</div>
+	</c:if>
+</c:forEach>
 
 <div class="card mx-auto" style="width: 600px; padding: 10px 50px">
 
