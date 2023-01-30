@@ -58,7 +58,7 @@ public class Login extends HttpServlet {
 		if(request.getSession().getAttribute("id") != null) {			
 			log.info("Connexion de " + request.getSession().getAttribute("login"));
 			response.sendRedirect(request.getContextPath() + "/home");
-		}else {			
+		}else {
 			doGet(request, response);
 		}
 		
