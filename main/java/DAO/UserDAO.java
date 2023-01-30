@@ -96,11 +96,49 @@ public class UserDAO implements UserDAOInterface {
     }
 	    
     public User get(int id) {
-    	return new User();
+    	Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+        ResultSet resultat = null;
+        
+    	try {
+    		connexion = factory.getConnection();
+    		preparedStatement = connexion.prepareStatement("SELECT * FROM Joueur WHERE id_joueur = ?;");
+            
+    		preparedStatement.setInt(1, id);
+
+    		resultat = preparedStatement.executeQuery();
+    		
+    		
+    		while(resultat.next()) {
+            	String name = resultat.getString("pseudo");
+                String email = resultat.getString("email");
+                String password = resultat.getString("password");
+
+                User user = new User();
+				user.setId(id);			
+                user.setName(name);
+                user.setEmail(email);
+                user.setPassword(password);
+                
+                return user;
+    		}
+		}
+    	catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	catch (ModelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	return null;
     }
+    
     public void delete(int id) {
     	
     }
+    
     public User update(User user) {
     	return new User();
     }

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import validators.forms.UnregisterValidator;
+
 /**
  * Servlet implementation class Unregister
  */
@@ -30,7 +32,6 @@ public class Unregister extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		request.setAttribute("title", "Désinscription");
-		request.setAttribute("joueur", "toto");
 		
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/unregister.jsp").forward(request, response);
@@ -40,12 +41,19 @@ public class Unregister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		var session = request.getSession();
-		var id_joueur = session.getAttribute("id");
 		
-		System.out.println(id_joueur);
-
-		doGet(request, response);
+		UnregisterValidator unregisterValidator = new UnregisterValidator();
+		
+		unregisterValidator.verifierUnregister(request);
+		
+		var results = unregisterValidator.getResults();
+		
+		if(!results.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/profile");			
+		}
+		else {
+			doGet(request, response);
+		}
 	}
 
 }
