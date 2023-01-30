@@ -58,6 +58,15 @@
 	  	</div>
 	</div>
 	
+	
+	<c:forEach items="${ errorsSuppr }" var="errorSuppr">
+		<c:if test="${ !errors.isEmpty()}">
+			<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
+			  <c:out value="${ errorSuppr }"/>
+			</div>
+		</c:if>
+	</c:forEach>
+	
 	<div class="card my-5 mx-auto" style="width:90%;">
 		<h4 class="card-header">
 	    	Supprimer votre compte (ceci est définitif)
