@@ -131,16 +131,81 @@ public class UserDAO implements UserDAOInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                
+            }
+        }
 
     	return null;
     }
     
     public void delete(int id) {
-    	
+    	Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+        
+    	try {
+    		connexion = factory.getConnection();
+    		preparedStatement = connexion.prepareStatement("DELETE FROM Joueur WHERE id_joueur = ?;");
+            
+    		preparedStatement.setInt(1, id);
+
+    		preparedStatement.executeUpdate();
+    		   		
+		}
+    	catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	finally {
+            try {
+                if (connexion != null) {
+                	connexion.commit();
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                
+            }
+        }
+
     }
     
-    public User update(User user) {
-    	return new User();
+    public void update(User user) {
+    	Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+        
+    	try {
+    		connexion = factory.getConnection();
+    		preparedStatement = connexion.prepareStatement(
+    				"UPDATE Joueur "
+    				+ "SET email = ?, password = ?, pseudo = ? "
+    				+ "WHERE id_joueur = ?;");
+            
+    		preparedStatement.setString(1, user.getEmail());
+    		preparedStatement.setString(2, user.getPassword());
+    		preparedStatement.setString(3, user.getName());
+    		preparedStatement.setInt(4, user.getId());
+
+    		preparedStatement.executeUpdate();
+    		   		
+		}
+    	catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+            try {
+                if (connexion != null) {
+                	connexion.commit();
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+            	e.printStackTrace();
+            }
+        }
     }
     
     public List<String> getPseudos() {
@@ -187,6 +252,7 @@ public class UserDAO implements UserDAOInterface {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             resultat = preparedStatement.executeQuery();
+               
 
             // Récupération des données
             while (resultat.next()) {

@@ -61,7 +61,7 @@ public class RegisterValidator extends Validator{
 				results.add("Veuillez renseigner votre mot de passe!");
 			}
 			else if(password.length()<8) {
-				results.add("Votre mot de passe doit doit être au moins de 8 charactères!");
+				results.add("Votre mot de passe doit être au moins de 8 charactères!");
 			}
 			else if(passwordConfirm.isEmpty()) {
 				results.add("Veuillez confirmer votre mot de passe!");

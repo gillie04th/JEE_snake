@@ -31,8 +31,8 @@ public class UnregisterValidator extends Validator{
 			else {
 				request.setAttribute("pseudo", joueur.getName());
 				userDAO.delete(id_joueur);
+				session.invalidate();
 			}
 		}
-		request.setAttribute("errorsSuppr", results);	
 	}
 }

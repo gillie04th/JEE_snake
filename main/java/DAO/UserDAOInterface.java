@@ -9,5 +9,5 @@ public interface UserDAOInterface {
     List<User> getAll() throws DAOException;
     User get(int id);
     void delete(int id);
-    User update(User user);
+    void update(User user);
 }
