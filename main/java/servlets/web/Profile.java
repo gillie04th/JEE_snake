@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import services.AuthorizationException;
 import services.AuthorizationService;
+import validators.forms.ModifyValidator;
+import validators.forms.RegisterValidator;
 
 /**
  * Servlet implementation class Profile
@@ -47,7 +49,11 @@ public class Profile extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		ModifyValidator modifyValidator = new ModifyValidator();
+		
+		modifyValidator.verifierModify(request);
+		
 		doGet(request, response);
 	}
 
