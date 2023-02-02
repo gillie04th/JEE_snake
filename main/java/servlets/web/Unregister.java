@@ -2,6 +2,7 @@ package servlets.web;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,7 +50,8 @@ public class Unregister extends HttpServlet {
 		var results = unregisterValidator.getResults();
 		
 		if(!results.isEmpty()) {
-			response.sendRedirect(request.getContextPath() + "/profile");			
+			request.setAttribute("errorsSuppr", results);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(request, response);		
 		}
 		else {
 			doGet(request, response);

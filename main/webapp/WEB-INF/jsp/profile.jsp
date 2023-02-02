@@ -4,6 +4,21 @@
 
 <div class="mx-8 my-2">
 
+	<c:forEach items="${ errors }" var="error">
+		<c:if test="${ !errors.isEmpty()}">
+			<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
+			  <c:out value="${ error }"/>
+			</div>
+		</c:if>
+	</c:forEach>
+	
+	<c:if test="${ validate }">
+		<div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 mx-auto" style="width: 385px; padding: 10px 50px" >
+			<c:out value="Vos informations ont été changé correctement"/>
+		</div>
+	</c:if>
+	
+	
 	<div class="card my-5 mx-auto" style="width:90%;">
 		<h4 class="card-header">
 	    	Vos informations
@@ -21,7 +36,7 @@
 			  <div class="mb-3 row">
 			  	<label class="col-sm-2 col-form-label">Email :</label>
 			  	<div class="col-sm-10">
-			      <input type="text" class="form-control" id="email" name="email" value="${sessionScope.login}">
+			      <input type="email" class="form-control" id="email" name="email" value="${sessionScope.login}" aria-describedby="emailHelp">
 			    </div>
 			  </div>
 			  
@@ -50,7 +65,7 @@
 			  
 			  <div class="mb-3 row text-center">
 			      <div class="col">
-			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submit" style="width:auto" disabled>
+			      <input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submit" style="width:auto" disabled value="Valider">
 			      	<img src="images/info.gif" style="width:25px; height:25px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider les modifications"/>
 			      </div>
 			  </div>
@@ -60,7 +75,7 @@
 	
 	
 	<c:forEach items="${ errorsSuppr }" var="errorSuppr">
-		<c:if test="${ !errors.isEmpty()}">
+		<c:if test="${ !errorsSuppr.isEmpty()}">
 			<div class="alert alert-danger mx-auto" style="width: 600px; padding: 10px 50px" role="alert">
 			  <c:out value="${ errorSuppr }"/>
 			</div>
@@ -83,7 +98,7 @@
 			  
 			  <div class="mb-3 row text-center">
 			      <div class="col">
-			      	<input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submitSuppr" style="width:auto" disabled>
+			      	<input type="submit" class="btn btn-danger form-control mx-auto col-sm-2" id="submitSuppr" style="width:auto" disabled value="Valider">
 			      	<img src="images/info.gif" style="width:25px; height:25px; margin-left:0px" data-toggle="tooltip" data-placement="left" title="Veuillez entrer votre mot de passe pour valider les modifications"/>
 			      </div>
 			  </div>
@@ -92,6 +107,7 @@
 		  
 	  	</div>
 	</div>
+	<br/><br/>
 
 </div>
 
