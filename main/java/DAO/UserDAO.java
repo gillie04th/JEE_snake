@@ -95,7 +95,7 @@ public class UserDAO implements UserDAOInterface {
         return users;
     }
 	    
-    public User get(int id) {
+    public User get(int id) throws DAOException{
     	Connection connexion = null;
     	PreparedStatement preparedStatement = null;
         ResultSet resultat = null;
@@ -124,12 +124,10 @@ public class UserDAO implements UserDAOInterface {
     		}
 		}
     	catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		throw new DAOException("Impossible de communiquer avec la base de données");
 		}
     	catch (ModelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		throw new DAOException("Les données de la base sont invalides");
 		}
     	finally {
             try {
@@ -137,14 +135,14 @@ public class UserDAO implements UserDAOInterface {
                     connexion.close();  
                 }
             } catch (SQLException e) {
-                
+            	throw new DAOException("Impossible de communiquer avec la base de données");
             }
         }
 
     	return null;
     }
     
-    public void delete(int id) {
+    public void delete(int id) throws DAOException{
     	Connection connexion = null;
     	PreparedStatement preparedStatement = null;
         
@@ -158,8 +156,7 @@ public class UserDAO implements UserDAOInterface {
     		   		
 		}
     	catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		throw new DAOException("Impossible de communiquer avec la base de données");
 		}
     	finally {
             try {
@@ -168,13 +165,13 @@ public class UserDAO implements UserDAOInterface {
                     connexion.close();  
                 }
             } catch (SQLException e) {
-                
+            	throw new DAOException("Impossible de communiquer avec la base de données");
             }
         }
 
     }
     
-    public void update(User user) {
+    public void update(User user) throws DAOException{
     	Connection connexion = null;
     	PreparedStatement preparedStatement = null;
         
@@ -194,7 +191,7 @@ public class UserDAO implements UserDAOInterface {
     		   		
 		}
     	catch (SQLException e) {
-			e.printStackTrace();
+    		throw new DAOException("Impossible de communiquer avec la base de données");
 		}
     	finally {
             try {
@@ -203,7 +200,7 @@ public class UserDAO implements UserDAOInterface {
                     connexion.close();  
                 }
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new DAOException("Impossible de communiquer avec la base de données");
             }
         }
     }
@@ -238,7 +235,7 @@ public class UserDAO implements UserDAOInterface {
 		return emails;
     }
     
-    public User isUserRegistered(String email, String password) {
+    public User isUserRegistered(String email, String password) throws DAOException{
         Connection connexion = null;
     	Statement statement = null;
         ResultSet resultat = null;
@@ -263,6 +260,7 @@ public class UserDAO implements UserDAOInterface {
                         resultat.getString("password"));
             }
         } catch (SQLException e) {
+        	throw new DAOException("Impossible de communiquer avec la base de données");
         } finally {
             // Fermeture de la connexion
             try {
