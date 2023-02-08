@@ -1,14 +1,16 @@
 package servlets.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import services.AuthorizationException;
+import services.AuthorizationService;
 import validators.forms.UnregisterValidator;
 
 /**
@@ -17,6 +19,7 @@ import validators.forms.UnregisterValidator;
 @WebServlet("/unregister")
 public class Unregister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private ArrayList<String> errors;
 	
        
     /**
@@ -24,18 +27,22 @@ public class Unregister extends HttpServlet {
      */
     public Unregister() {
         super();
-        // TODO Auto-generated constructor stub
+        this.errors = new ArrayList<String>();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		request.setAttribute("title", "Désinscription");
-		
-		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/unregister.jsp").forward(request, response);
+		try {
+			AuthorizationService.isUserLogged(request);
+			request.setAttribute("title", "Désinscription");
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/unregister.jsp").forward(request, response);
+		}catch(AuthorizationException e) {
+			errors.add("Action non autorisée sans connexion !");
+			request.setAttribute("errors", errors);
+			response.sendRedirect(request.getContextPath() + "/login");
+		}	
 	}
 
 	/**
