@@ -3,6 +3,7 @@ package servlets.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -62,7 +63,11 @@ public class LoginAPI extends HttpServlet {
 			
 		var res = new ObjectMapper().writeValueAsString(hashMap);
 			
-		response.getWriter().print(res);
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		out.print(res);
+		out.flush();
 	}
 	
 	

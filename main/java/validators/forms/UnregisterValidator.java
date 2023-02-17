@@ -2,8 +2,10 @@ package validators.forms;
 
 import javax.servlet.http.HttpServletRequest;
 
+import DAO.DAOException;
 import DAO.DAOFactory;
 import DAO.UserDAO;
+import models.User;
 import validators.Validator;
 
 public class UnregisterValidator extends Validator{
@@ -17,7 +19,13 @@ public class UnregisterValidator extends Validator{
 		DAOFactory factory = DAOFactory.getInstance();
 		UserDAO userDAO = (UserDAO) factory.getUserDAO();
 		
-		var joueur = userDAO.get(id_joueur);
+		User joueur = new User();
+		try {
+			joueur = userDAO.get(id_joueur);
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		if(joueur == null) {
 			results.add("Erreur, joueur introuvable!");
@@ -30,7 +38,12 @@ public class UnregisterValidator extends Validator{
 			}
 			else {
 				request.setAttribute("pseudo", joueur.getName());
-				userDAO.delete(id_joueur);
+				try {
+					userDAO.delete(id_joueur);
+				} catch (DAOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				session.invalidate();
 			}
 		}
