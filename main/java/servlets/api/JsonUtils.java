@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class JsonManagement {
+public class JsonUtils {
 	public static JSONObject getJSONObject(ServletInputStream input) {
 		try {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(input));
@@ -24,5 +24,4 @@ public class JsonManagement {
 		
 		return null;
 	}
-
 }
