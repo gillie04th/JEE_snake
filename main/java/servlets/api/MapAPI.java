@@ -16,24 +16,24 @@ import models.User;
 import validators.forms.LoginValidator;
 
 /**
- * Servlet implementation class LoginAPI
+ * Servlet implementation class MapAPI
  */
-@WebServlet("/api/login")
-public class LoginAPI extends HttpServlet {
+@WebServlet("/api/map")
+public class MapAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginAPI() {
+    public MapAPI() {
         super();
+        // TODO Auto-generated constructor stub
     }
-    
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		var jsonO = JsonManagement.getJSONObject(request.getInputStream());
 		
 		String email = (String)jsonO.get("email");
@@ -62,4 +62,13 @@ public class LoginAPI extends HttpServlet {
 		out.print(res);
 		out.flush();
 	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
 }
