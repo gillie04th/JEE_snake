@@ -1,20 +1,14 @@
 package servlets.api;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,7 +34,7 @@ public class LoginAPI extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-		var jsonO = getJSONObject(request.getInputStream());
+		var jsonO = JsonUtils.getJSONObject(request.getInputStream());
 		
 		String email = (String)jsonO.get("email");
 		String password = (String)jsonO.get("password");
@@ -51,34 +45,21 @@ public class LoginAPI extends HttpServlet {
 		HashMap<String,Object> hashMap  = new HashMap<String, Object>();
 			
 		if(user == null) {
-			hashMap.put("status_code", 401);
+			hashMap.put("statusCode", 401);
 			hashMap.put("message", validator.getResults());
 		}
 		else {
-			hashMap.put("status_code", 200);
+			hashMap.put("statusCode", 200);
 			hashMap.put("message", "Connexion réussi");
 			hashMap.put("user", user);
 		}
 			
 		var res = new ObjectMapper().writeValueAsString(hashMap);
-			
-		response.getWriter().print(res);
-	}
-	
-	
-	private JSONObject getJSONObject(ServletInputStream input) {
-	
-		try {
-			BufferedReader rd = new BufferedReader(new InputStreamReader(input));
-			JSONParser jsonP = new JSONParser();
-			return (JSONObject) jsonP.parse(rd);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
 
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		out.print(res);
+		out.flush();
+	}
 }
