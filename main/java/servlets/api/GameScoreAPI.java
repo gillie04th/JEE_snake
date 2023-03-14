@@ -1,5 +1,7 @@
 package servlets.api;
 
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -12,7 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import validators.forms.LoginValidator;
+import DAO.DAOException;
+import DAO.DAOFactory;
+import DAO.GameDAO;
+import models.Game;
+import models.User;
 
 /**
  * Servlet implementation class GameScoreAPI
@@ -52,21 +58,43 @@ public class GameScoreAPI extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		var jsonO = JsonUtils.getJSONObject(request.getInputStream());
+		JSONObject jsonO = (JSONObject) JsonUtils.getJSONObject(request.getInputStream());
 		
-		String email = (String)jsonO.get("email");
-		String password = (String)jsonO.get("password");
+		String layout = (String)((JSONObject)jsonO).get("layout");
+		long maxTurn = (long)((JSONObject)jsonO).get("maxTurn");
+		long turns = (long)((JSONObject)jsonO).get("turn");
+		long time = (long)((JSONObject)jsonO).get("time");
+		String message = (String)((JSONObject)jsonO).get("message");
+		User user = JsonUtils.jsonToUser(((JSONObject)jsonO).get("user").toString());
+		String timestamp = (String)((JSONObject)jsonO).get("timestamp");
+		
+		System.out.println(timestamp);
+		
+		Game game = new Game();
+		game.setMap(layout);
+		game.setDepart(timestamp);
+		game.setSpeed((int) time);
+		game.setTours((int) turns);
+		game.setToursMax((int) maxTurn);
+		game.setStatus(message);
 			
-		LoginValidator validator = new LoginValidator();
+		//GameValidator validator = new LoginValidator();
 		//User user = validator.validateLoginAPI(email, password);
+		
+		DAOFactory factory = DAOFactory.getInstance();
+		GameDAO gameDAO = (GameDAO) factory.getGameDAO();
+		
+		try {
+			gameDAO.add(game, user);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 			
 		HashMap<String,Object> hashMap  = new HashMap<String, Object>();
 		
-		System.out.print(jsonO);
-		
 		if(false) {
 			hashMap.put("status_code", 401);
-			hashMap.put("message", validator.getResults());
+			//hashMap.put("message", validator.getResults());
 		}
 		else {
 			hashMap.put("message", "Connexion réussi");
