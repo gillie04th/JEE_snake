@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -41,10 +43,14 @@ public class LoginAPI extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+		
+		
 		var jsonO = getJSONObject(request.getInputStream());
 		
-		String email = (String)jsonO.get("email");
-		String password = (String)jsonO.get("password");
+		JSONObject obj = new JSONObject((Map) jsonO.get("user"));
+		
+		String email = (String)obj.get("email");
+		String password = (String)obj.get("password");
 			
 		LoginValidator validator = new LoginValidator();
 		User user = validator.validateLoginAPI(email, password);
