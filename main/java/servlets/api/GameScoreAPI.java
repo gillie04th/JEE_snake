@@ -1,8 +1,9 @@
 package servlets.api;
 
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -57,18 +58,21 @@ public class GameScoreAPI extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		var jsonO = JsonUtils.getJSONObject(request.getInputStream());
+		JSONObject jsonO = (JSONObject) JsonUtils.getJSONObject(request.getInputStream());
 		
-		String layout = (String)jsonO.get("layout");
-		long maxTurn = (long)jsonO.get("maxTurn");
-		long turns = (long)jsonO.get("turn");
-		long time = (long)jsonO.get("time");
-		String message = (String)jsonO.get("message");
-		User user = JsonUtils.jsonToUser(jsonO.get("user").toString());
+		String layout = (String)((JSONObject)jsonO).get("layout");
+		long maxTurn = (long)((JSONObject)jsonO).get("maxTurn");
+		long turns = (long)((JSONObject)jsonO).get("turn");
+		long time = (long)((JSONObject)jsonO).get("time");
+		String message = (String)((JSONObject)jsonO).get("message");
+		User user = JsonUtils.jsonToUser(((JSONObject)jsonO).get("user").toString());
+		String timestamp = (String)((JSONObject)jsonO).get("timestamp");
+		
+		System.out.println(timestamp);
 		
 		Game game = new Game();
 		game.setMap(layout);
-		game.setDepart(LocalDateTime.now().toString());
+		game.setDepart(timestamp);
 		game.setSpeed((int) time);
 		game.setTours((int) turns);
 		game.setToursMax((int) maxTurn);
@@ -87,8 +91,6 @@ public class GameScoreAPI extends HttpServlet {
 		}
 			
 		HashMap<String,Object> hashMap  = new HashMap<String, Object>();
-		
-		System.out.println(jsonO);
 		
 		if(false) {
 			hashMap.put("status_code", 401);

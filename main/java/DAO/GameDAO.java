@@ -29,16 +29,17 @@ public class GameDAO implements GameDAOInterface {
             preparedStatement = connexion.prepareStatement("INSERT INTO Partie(map_name, temps_depart, id_joueur_gagnant, nb_tour, nb_tour_max, speed, status) VALUES(?, ?, ?, ?, ?, ?, ?);");
             preparedStatement.setString(1, game.getMap());
             preparedStatement.setString(2, game.getDepart().toString());
-            //preparedStatement.setInt(3, game.getGagnant().getId());
-            preparedStatement.setNull(3, 0);
+            if(game.getGagnant() != null) {
+            	preparedStatement.setInt(3, game.getGagnant().getId());
+            } else {        	
+            	preparedStatement.setNull(3, 0);
+            }
             preparedStatement.setInt(4, game.getTours());
             preparedStatement.setInt(5, game.getToursMax());
             preparedStatement.setInt(6, game.getSpeed());
             preparedStatement.setString(7, game.getStatus());
 
             preparedStatement.executeUpdate();
-            
-            //System.out.println(preparedStatement.getGeneratedKeys());
                     	
 	        //preparedStatement2 = connexion.prepareStatement("INSERT INTO Joueur_Partie(id_joueur, id_partie) VALUES(?, ?);");
 	        //preparedStatement2.setInt(1, user.getId());
@@ -51,7 +52,9 @@ public class GameDAO implements GameDAOInterface {
                     connexion.rollback();
                 }
             } catch (SQLException e2) {
+            	e2.printStackTrace();
             }
+            e.printStackTrace();
             throw new DAOException("Impossible de communiquer avec la base de données");
         }
         finally {
@@ -61,6 +64,7 @@ public class GameDAO implements GameDAOInterface {
                     connexion.close();  
                 }
             } catch (SQLException e) {
+            	e.printStackTrace();
                 throw new DAOException("Impossible de communiquer avec la base de données");
             }
         }

@@ -25,6 +25,7 @@ CREATE TABLE Partie(
 	nb_tour int,
 	nb_tour_max int,
 	speed int,
+	status VARCHAR(50),
 	PRIMARY  KEY(id_partie),
 	FOREIGN KEY(id_joueur_gagnant) REFERENCES Joueur(id_joueur)
 );
