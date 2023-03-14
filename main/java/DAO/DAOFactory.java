@@ -32,8 +32,13 @@ public class DAOFactory {
         return connexion;
     }
 
-    // Récupération du Dao
+    // Récupération du Dao UserDAO
     public UserDAOInterface getUserDAO() {
         return new UserDAO(this);
+    }
+    
+    // Récupération du Dao GameDAO
+    public GameDAOInterface getGameDAO() {
+        return new GameDAO(this);
     }
 }
