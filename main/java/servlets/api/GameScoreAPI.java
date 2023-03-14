@@ -2,6 +2,7 @@ package servlets.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -12,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import validators.forms.LoginValidator;
+import DAO.DAOException;
+import DAO.DAOFactory;
+import DAO.GameDAO;
+import models.Game;
+import models.User;
 
 /**
  * Servlet implementation class GameScoreAPI
@@ -54,19 +59,40 @@ public class GameScoreAPI extends HttpServlet {
 		
 		var jsonO = JsonUtils.getJSONObject(request.getInputStream());
 		
-		String email = (String)jsonO.get("email");
-		String password = (String)jsonO.get("password");
+		String layout = (String)jsonO.get("layout");
+		long maxTurn = (long)jsonO.get("maxTurn");
+		long turns = (long)jsonO.get("turn");
+		long time = (long)jsonO.get("time");
+		String message = (String)jsonO.get("message");
+		User user = JsonUtils.jsonToUser(jsonO.get("user").toString());
+		
+		Game game = new Game();
+		game.setMap(layout);
+		game.setDepart(LocalDateTime.now().toString());
+		game.setSpeed((int) time);
+		game.setTours((int) turns);
+		game.setToursMax((int) maxTurn);
+		game.setStatus(message);
 			
-		LoginValidator validator = new LoginValidator();
+		//GameValidator validator = new LoginValidator();
 		//User user = validator.validateLoginAPI(email, password);
+		
+		DAOFactory factory = DAOFactory.getInstance();
+		GameDAO gameDAO = (GameDAO) factory.getGameDAO();
+		
+		try {
+			gameDAO.add(game, user);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 			
 		HashMap<String,Object> hashMap  = new HashMap<String, Object>();
 		
-		System.out.print(jsonO);
+		System.out.println(jsonO);
 		
 		if(false) {
 			hashMap.put("status_code", 401);
-			hashMap.put("message", validator.getResults());
+			//hashMap.put("message", validator.getResults());
 		}
 		else {
 			hashMap.put("message", "Connexion réussi");
