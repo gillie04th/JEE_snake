@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.Game;
 import models.ModelException;
@@ -69,7 +72,8 @@ public class GameDAO implements GameDAOInterface {
             }
         }
     }
-	    
+	
+    @Override
     public Game get(int id) throws DAOException{
     	Connection connexion = null;
     	PreparedStatement preparedStatement = null;
@@ -119,6 +123,7 @@ public class GameDAO implements GameDAOInterface {
     	return null;
     }
     
+    @Override
     public void delete(int id) throws DAOException{
     	Connection connexion = null;
     	PreparedStatement preparedStatement = null;
@@ -146,6 +151,120 @@ public class GameDAO implements GameDAOInterface {
             }
         }
 
+    }
+    
+    @Override
+    public List<Game> getAll() throws DAOException{
+    	List<Game> games = new ArrayList<Game>();
+        Connection connexion = null;
+        Statement statement = null;
+        ResultSet resultat = null;
+
+        try {
+            connexion = factory.getConnection();
+            statement = connexion.createStatement();
+            resultat = statement.executeQuery("SELECT * FROM Joueur_Partie;");
+
+            PreparedStatement preparedStatement = null;
+            ResultSet resultat_partie = null;
+            ResultSet resultat_joueur = null;
+            
+            while (resultat.next()) {
+            	int id_partie = resultat.getInt("id_partie");
+            	int id_joueur = resultat.getInt("id_joueur");
+            	
+            	preparedStatement = connexion.prepareStatement("SELECT * FROM Partie WHERE id_partie = ?;");
+        		preparedStatement.setInt(1, id_partie);
+        		resultat_partie = preparedStatement.executeQuery();
+        		
+        		preparedStatement = connexion.prepareStatement("SELECT * FROM Joueur WHERE id_joueur = ?;");
+        		preparedStatement.setInt(1, id_joueur);
+        		resultat_joueur = preparedStatement.executeQuery();
+            	
+        		
+        		resultat_joueur.next();
+        		
+        		var userDAO = factory.getUserDAO();     
+        		User joueur = userDAO.get(id_joueur);
+        		
+        		
+        		resultat_partie.next();
+        		
+        		int id = resultat.getInt("id_partie");
+        		int score = resultat.getInt("score");
+            	String map = resultat_partie.getString("map_name");
+                String temps_depart = resultat_partie.getString("temps_depart");
+                int nb_tour = resultat_partie.getInt("nb_tour");
+                int nb_tour_max = resultat_partie.getInt("nb_tour_max");
+                int speed = resultat_partie.getInt("speed");
+                String status = resultat_partie.getString("status");
+
+                int id_gagnant = resultat_partie.getInt("id_joueur_gagnant");
+                User joueur_gagnant = userDAO.get(id_gagnant);
+                
+        		
+                Game game = new Game();
+                game.setId(id);
+                game.setJoueur(joueur);
+                game.setMap(map);
+                game.setDepart(temps_depart);
+                game.setTours(nb_tour);
+                game.setToursMax(nb_tour_max);
+                game.setSpeed(speed);
+                game.setScore(score);
+                game.setStatus(status);   
+                game.setGagnant(joueur_gagnant);
+
+                games.add(game);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Impossible de communiquer avec la base de données");
+        } catch (ModelException e) {
+            throw new DAOException("Les données de la base sont invalides");
+        }
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DAOException("Impossible de communiquer avec la base de données");
+            }
+        }
+        return games;
+    }
+    
+    public List<String> getAllMapName() throws DAOException{
+    	List<String> maps = new ArrayList<String>();
+        Connection connexion = null;
+        Statement statement = null;
+        ResultSet resultat = null;
+
+        try {
+            connexion = factory.getConnection();
+            statement = connexion.createStatement();
+            resultat = statement.executeQuery("SELECT map_name FROM Partie;");
+            
+            while (resultat.next()) {
+            	String map_name = resultat.getString("map_name");
+            	
+            	if(!maps.contains(map_name)) {
+            		maps.add(map_name);
+            	}
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Impossible de communiquer avec la base de données");
+        } 
+        finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+                throw new DAOException("Impossible de communiquer avec la base de données");
+            }
+        }
+        return maps;
     }
 
 }

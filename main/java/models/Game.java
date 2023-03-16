@@ -2,14 +2,16 @@ package models;
 
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Comparable<Game>{
 	private int id;
+	private User joueur;
 	private String map;
 	private String depart;
 	private User gagnant;
 	private int tours;
 	private int toursMax;
 	private int speed;
+	private int score;
 	private String status;
 	private ArrayList<User> joueurs;
 		
@@ -28,6 +30,14 @@ public class Game {
 		}
 	}
 
+	public User getJoueur() {
+		return joueur;
+	}
+
+	public void setJoueur(User joueur) {
+		this.joueur = joueur;
+	}
+	
 	public String getMap() {
 		return map;
 	}
@@ -83,6 +93,14 @@ public class Game {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
 
 	public String getStatus() {
 		return status;
@@ -94,8 +112,14 @@ public class Game {
 
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", map=" + map + ", depart=" + depart + ", gagnant="
-				+ gagnant + ", tours=" + tours + ", toursMax" + toursMax
+		return "Game [id=" + id + ", joueur=" + joueur + ", map=" + map + ", depart=" + depart + ", gagnant="
+				+ gagnant + ", tours=" + tours + ", toursMax" + toursMax + ", speed = " 
+				+ speed + ", score = " + score + ", status = " + status
 				+ "]";
+	}
+
+	@Override
+	public int compareTo(Game game) {
+		return ((Integer)(getScore()*(-1))).compareTo((Integer)(game.getScore()*(-1)));
 	}
 }
