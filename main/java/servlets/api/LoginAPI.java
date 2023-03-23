@@ -51,6 +51,7 @@ public class LoginAPI extends HttpServlet {
 		else {
 			hashMap.put("statusCode", 200);
 			hashMap.put("message", "Connexion réussi");
+			user.setToken("token_api");
 			hashMap.put("user", user);
 		}
 			
