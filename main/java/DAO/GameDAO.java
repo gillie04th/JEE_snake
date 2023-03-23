@@ -24,7 +24,7 @@ public class GameDAO implements GameDAOInterface {
     public void add(Game game, User user) throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
-        //PreparedStatement preparedStatement2 = null;
+        PreparedStatement preparedStatement2 = null;
 
         try {
             connexion = factory.getConnection();
@@ -44,10 +44,11 @@ public class GameDAO implements GameDAOInterface {
 
             preparedStatement.executeUpdate();
                     	
-	        //preparedStatement2 = connexion.prepareStatement("INSERT INTO Joueur_Partie(id_joueur, id_partie) VALUES(?, ?);");
-	        //preparedStatement2.setInt(1, user.getId());
-	        //preparedStatement2.setInt(2, game.getId());
-            //preparedStatement2.executeUpdate();
+	        preparedStatement2 = connexion.prepareStatement("INSERT INTO Joueur_Partie(id_joueur, id_partie) VALUES(?, ?, ?);");
+	        preparedStatement2.setInt(1, user.getId());
+	        preparedStatement2.setInt(2, game.getId());
+	        preparedStatement2.setInt(3, game.getScore());
+            preparedStatement2.executeUpdate();
             
         } catch (SQLException e) {
             try {
