@@ -8,6 +8,7 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
+	private String token;
 	private ArrayList<Game> games;
 	
 	public User(String name, String email, String password) {
@@ -74,6 +75,14 @@ public class User {
 	}
 	public void setGames(ArrayList<Game> games) throws ModelException {
 		this.games = games;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	@Override
