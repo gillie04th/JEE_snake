@@ -14,7 +14,7 @@ CREATE TABLE Joueur(
 
 LOCK TABLES `Joueur` WRITE;
 /*!40000 ALTER TABLE `Joueur` DISABLE KEYS */;
-INSERT INTO `Joueur` (email, password, pseudo) VALUES ('darkSasukedu49@naroute.fr','12345678','darkSasukéDu49'),('test@test.fr','testtest','test');
+INSERT INTO `Joueur` (id_joueur, email, password, pseudo) VALUES (1, 'darkSasukedu49@naroute.fr','12345678','darkSasukéDu49'),(2, 'test@test.fr','testtest','test');
 /*!40000 ALTER TABLE `Joueur` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -41,18 +41,18 @@ CREATE TABLE Joueur_Partie(
 );
 
 
-/*INSERT INTO `Partie` (map_name, id_joueur_gagnant, nb_tour, nb_tour_max) VALUES ('Maptest', 27, 54, 1000);
+INSERT INTO `Partie` (id_partie, map_name, id_joueur_gagnant, nb_tour, nb_tour_max) VALUES (1, 'Maptest', 1, 54, 1000);
 
-INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (1, 27, 25);
+INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (1, 1, 25);
 
-INSERT INTO `Partie` (map_name, nb_tour, nb_tour_max) VALUES ('Maptest', 104, 1000);
+INSERT INTO `Partie` (id_partie, map_name, nb_tour, nb_tour_max) VALUES (2, 'Maptest', 104, 1000);
 
-INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (2, 27, 58);
+INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (2, 1, 58);
 
-INSERT INTO `Partie` (map_name, nb_tour, nb_tour_max) VALUES ('Maptest', 65, 1000);
+INSERT INTO `Partie` (id_partie, map_name, nb_tour, nb_tour_max) VALUES (3, 'Maptest', 65, 1000);
 
-INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (3, 20, 10);
+INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (3, 2, 10);
 
-INSERT INTO `Partie` (map_name, nb_tour, nb_tour_max) VALUES ('alone', 65, 1000);
+INSERT INTO `Partie` (id_partie, map_name, nb_tour, nb_tour_max) VALUES (4, 'Maptest2', 65, 1000);
 
-INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (4, 20, 15);*/
+INSERT INTO `Joueur_Partie` (id_partie, id_joueur, score) VALUES (4, 2, 15);
