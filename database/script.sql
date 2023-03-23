@@ -1,14 +1,15 @@
 use db_snake;
 
 DROP TABLE IF EXISTS `Joueur_Partie`;
-DROP TABLE IF EXISTS `Joueur`;
 DROP TABLE IF EXISTS `Partie`;
+DROP TABLE IF EXISTS `Joueur`;
 
 CREATE TABLE Joueur(
 	id_joueur int NOT NULL AUTO_INCREMENT,
 	email VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
 	pseudo VARCHAR(50) NOT NULL,
+	skin VARCHAR(100) NULL,
 	PRIMARY  KEY(id_joueur)
 );
 
