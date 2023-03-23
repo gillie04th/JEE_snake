@@ -19,7 +19,7 @@
           <a class="nav-link dropdown-toggle" href="/snake/profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             ${sessionScope.name}
           </a>
-          <ul class="dropdown-menu"> 
+          <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end"> 
             <li><a class="dropdown-item" href="/snake/profile">Vos informations</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/snake/logout">Se déconnecter</a></li>
