@@ -283,11 +283,13 @@ public class UserDAO implements UserDAOInterface {
 
             // Récupération des données
             while (resultat.next()) {
-                return new User(
+                User user =  new User(
                         resultat.getInt("id_joueur"),
                         resultat.getString("pseudo"),
                         resultat.getString("email"),
                         resultat.getString("password"));
+                user.setSkin(resultat.getString("skin"));
+                return user;
             }
         } catch (SQLException e) {
         	throw new DAOException("Impossible de communiquer avec la base de données");
