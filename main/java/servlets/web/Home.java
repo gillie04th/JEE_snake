@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.DAOException;
+import DAO.DAOFactory;
+import DAO.GameDAO;
+import models.Game;
 import services.AuthorizationException;
 import services.AuthorizationService;
 
@@ -36,11 +40,20 @@ public class Home extends HttpServlet {
 		try {
 			AuthorizationService.isUserLogged(request);
 			request.setAttribute("title", "Accueil");
+			
+			DAOFactory factory = DAOFactory.getInstance();
+			GameDAO gameDAO = (GameDAO) factory.getGameDAO();
+			
+			Game game = gameDAO.getBestGame(Integer.parseInt(request.getSession().getAttribute("id").toString()));
+			request.setAttribute("game", game);
+			
 			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 		}catch(AuthorizationException e) {
 			errors.add("Action non autorisée sans connexion !");
 			request.setAttribute("errors", errors);
 			response.sendRedirect(request.getContextPath() + "/login");			
+		} catch (NumberFormatException | DAOException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 

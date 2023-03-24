@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import services.AuthorizationException;
 import services.AuthorizationService;
 import validators.forms.ModifyValidator;
-import validators.forms.RegisterValidator;
 
 /**
  * Servlet implementation class Profile

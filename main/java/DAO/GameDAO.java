@@ -235,6 +235,65 @@ public class GameDAO implements GameDAOInterface {
         return games;
     }
     
+    public Game getBestGame(int id_joueur) throws DAOException {
+    	Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+        ResultSet resultat = null;
+        
+        try {
+    		connexion = factory.getConnection();
+    		preparedStatement = connexion.prepareStatement("SELECT * FROM Joueur_Partie WHERE id_joueur = ? ORDER BY score DESC LIMIT 1;");
+            
+    		preparedStatement.setInt(1, id_joueur);
+
+    		resultat = preparedStatement.executeQuery();
+    		
+    		
+    		while(resultat.next()) {
+            	int id_partie = resultat.getInt("id_partie");
+            	int score = resultat.getInt("score");
+
+            	PreparedStatement preparedStatementPartie = connexion.prepareStatement("SELECT * FROM Partie WHERE id_partie = ?;");	
+            	preparedStatementPartie.setInt(1, id_partie);
+            	
+                ResultSet resultatPartie = preparedStatementPartie.executeQuery();
+                
+                while(resultatPartie.next()) {
+                	
+                	String map = resultatPartie.getString("map_name");
+                	String temps_depart = resultatPartie.getString("temps_depart");
+                    int nb_tour = resultatPartie.getInt("nb_tour");
+                	
+                	Game game = new Game();
+                    game.setId(id_partie);			
+    				game.setMap(map);
+                    game.setTours(nb_tour);
+                    game.setDepart(temps_depart);
+                    game.setScore(score);
+                    
+                    return game;
+                }
+    		}
+		}
+    	catch (SQLException e) {
+    		throw new DAOException("Impossible de communiquer avec la base de données");
+		}
+    	catch (ModelException e) {
+    		throw new DAOException("Les données de la base sont invalides");
+		}
+    	finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+            	throw new DAOException("Impossible de communiquer avec la base de données");
+            }
+        }
+
+    	return null;
+    }
+    
     public List<String> getAllMapName() throws DAOException{
     	List<String> maps = new ArrayList<String>();
         Connection connexion = null;

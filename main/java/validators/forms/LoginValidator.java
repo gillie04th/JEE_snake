@@ -19,6 +19,9 @@ public class LoginValidator extends Validator {
 			if(login != "" & password != "") {
 				UserDAO dao = (UserDAO) DAOFactory.getInstance().getUserDAO();
 				User user = dao.isUserRegistered(login, password);
+				
+				System.out.println(user);
+				
 				if(user != null) {
 					request.getSession().setAttribute("login", user.getEmail());
 					request.getSession().setAttribute("name", user.getName());
