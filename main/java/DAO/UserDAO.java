@@ -205,6 +205,36 @@ public class UserDAO implements UserDAOInterface {
         }
     }
     
+    public void setSkin(int id, String skin) throws DAOException{
+    	Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+        
+    	try {
+    		connexion = factory.getConnection();
+    		preparedStatement = connexion.prepareStatement(
+    				"UPDATE Joueur SET skin = ? WHERE id_joueur = ?;");
+            
+    		preparedStatement.setString(1, skin);
+    		preparedStatement.setInt(2, id);
+
+    		preparedStatement.executeUpdate();
+    		   		
+		}
+    	catch (SQLException e) {
+    		throw new DAOException("Impossible de communiquer avec la base de données");
+		}
+    	finally {
+            try {
+                if (connexion != null) {
+                	connexion.commit();
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+            	throw new DAOException("Impossible de communiquer avec la base de données");
+            }
+        }
+    }
+    
     public List<String> getPseudos() {
     	List<User> users;
     	ArrayList<String> pseudos = new ArrayList<String>();
@@ -253,11 +283,13 @@ public class UserDAO implements UserDAOInterface {
 
             // Récupération des données
             while (resultat.next()) {
-                return new User(
+                User user =  new User(
                         resultat.getInt("id_joueur"),
                         resultat.getString("pseudo"),
                         resultat.getString("email"),
                         resultat.getString("password"));
+                user.setSkin(resultat.getString("skin"));
+                return user;
             }
         } catch (SQLException e) {
         	throw new DAOException("Impossible de communiquer avec la base de données");

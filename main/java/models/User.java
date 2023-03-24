@@ -9,6 +9,7 @@ public class User {
 	private String email;
 	private String password;
 	private String token;
+	private String skin;
 	private ArrayList<Game> games;
 	
 	public User(String name, String email, String password) {
@@ -83,6 +84,14 @@ public class User {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public String getSkin() {
+		return skin;
+	}
+
+	public void setSkin(String skin) {
+		this.skin = skin;
 	}
 
 	@Override
