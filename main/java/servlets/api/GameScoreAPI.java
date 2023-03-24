@@ -67,6 +67,7 @@ public class GameScoreAPI extends HttpServlet {
 		String message = (String)((JSONObject)jsonO).get("message");
 		User user = JsonUtils.jsonToUser(((JSONObject)jsonO).get("user").toString());
 		String timestamp = (String)((JSONObject)jsonO).get("timestamp");
+		long score = (long)((JSONObject)jsonO).get("score");
 		
 		System.out.println(timestamp);
 		
@@ -77,6 +78,7 @@ public class GameScoreAPI extends HttpServlet {
 		game.setTours((int) turns);
 		game.setToursMax((int) maxTurn);
 		game.setStatus(message);
+		game.setScore((int) score);
 			
 		//GameValidator validator = new LoginValidator();
 		//User user = validator.validateLoginAPI(email, password);
