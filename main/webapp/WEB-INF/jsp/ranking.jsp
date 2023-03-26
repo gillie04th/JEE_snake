@@ -20,17 +20,44 @@
 					<c:if test="${ !mapsName.isEmpty()}">
 						<option value="${ map }">${ map }</option>
 					</c:if>
-				</c:forEach>
-	  	
+				</c:forEach>	
 	  		</select>
-	  	
-	  		<c:forEach items="${ games }" var="game">
-				<c:if test="${ !games.isEmpty()}">
-					<div class="card my-5 mx-auto" style="width: 600px; padding: 10px 50px">
-					  <c:out value="Joueur : ${ game.getJoueur().getName() } | Map : ${ game.getMap() } | Score = ${ game.getScore() }"/>
-					</div>
-				</c:if>
-			</c:forEach>
+			
+			<br/><br/>
+			
+			<table class="table table-striped">
+			  <thead>
+			    <tr class="table-dark">
+			      <th scope="col">#</th>
+			      <th scope="col">Nom</th>
+			      <th scope="col">Map</th>
+			      <th scope="col">Score</th>
+			      <th scope="col">Nombre tours</th>
+			      <th scope="col">Vitesse</th>
+			      <th scope="col">Statut</th>
+			      <th scope="col">Date</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<c:set var="i" value="0" scope="page" />
+				  <c:forEach items="${ games }" var="game">
+					<c:if test="${ !games.isEmpty()}">
+					<c:set var="i" value="${i + 1}" scope="page"/>
+						<tr>
+					      <th scope="row">${i}</th>
+					      <td>${ game.getJoueur().getName() }</td>
+					      <td>${ game.getMap() }</td>
+					      <td>${ game.getScore() }</td>
+					      <td>${ game.getTours() }</td>
+					      <td>${ game.getSpeed() }</td>
+					      <td>${ game.getStatus() }</td>
+					      <td>${ game.getDepart() }</td>
+					    </tr>
+					</c:if>
+				</c:forEach>
+			    
+			  </tbody>
+			</table>
 	  	
 	  	</div>
 	  </div>

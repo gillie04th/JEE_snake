@@ -6,7 +6,7 @@
   	<div id="footer-date" class="col-md-auto"></div>
 	<script>
 		date = new Date();
-		document.getElementById("footer-date").innerHTML = date.getDate() + "-" + date.getMonth()+1 + "-" + date.getFullYear();
+		document.getElementById("footer-date").innerHTML = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
 	</script>
     <a class="text-dark col-md-auto" href="https://github.com/gillie04th/JEE_snake/">@JEE_snake</a>
   </div>
