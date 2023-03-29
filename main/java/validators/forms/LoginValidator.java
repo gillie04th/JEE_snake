@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import DAO.DAOException;
 import DAO.DAOFactory;
 import DAO.UserDAO;
+import models.ModelException;
 import models.User;
 import validators.Validator;
 
@@ -46,10 +47,12 @@ public class LoginValidator extends Validator {
 			if(email != null & password != null) {
 				UserDAO dao = (UserDAO) DAOFactory.getInstance().getUserDAO();
 				User user = dao.isUserRegistered(email, password);
+				
 				if(user == null) {
 					this.results.add("Les identifiants fournis sont incorrects");
 				}
 				else {
+					user.setId(dao.getId(email));
 					return user;
 				}
 			}else {
@@ -65,6 +68,9 @@ public class LoginValidator extends Validator {
 				
 			}
 		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (ModelException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
