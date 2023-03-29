@@ -142,6 +142,39 @@ public class UserDAO implements UserDAOInterface {
     	return null;
     }
     
+    
+    public int getId(String email) throws DAOException{
+    	Connection connexion = null;
+    	PreparedStatement preparedStatement = null;
+        ResultSet resultat = null;
+        
+    	try {
+    		connexion = factory.getConnection();
+    		preparedStatement = connexion.prepareStatement("SELECT id_joueur FROM Joueur WHERE email = ?;");
+            
+    		preparedStatement.setString(1, email);
+
+    		resultat = preparedStatement.executeQuery();
+    		
+    		
+    		resultat.next();
+            return resultat.getInt("id_joueur");
+		}
+    	catch (SQLException e) {
+    		throw new DAOException("Impossible de communiquer avec la base de données");
+		}
+    	finally {
+            try {
+                if (connexion != null) {
+                    connexion.close();  
+                }
+            } catch (SQLException e) {
+            	throw new DAOException("Impossible de communiquer avec la base de données");
+            }
+        }
+    }
+    
+    
     public void delete(int id) throws DAOException{
     	Connection connexion = null;
     	PreparedStatement preparedStatement = null;

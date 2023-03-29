@@ -44,9 +44,17 @@ public class GameDAO implements GameDAOInterface {
 
             preparedStatement.executeUpdate();
                     	
-	        preparedStatement2 = connexion.prepareStatement("INSERT INTO Joueur_Partie(id_joueur, id_partie) VALUES(?, ?, ?);");
-	        preparedStatement2.setInt(1, user.getId());
-	        preparedStatement2.setInt(2, game.getId());
+            Statement statement = connexion.createStatement();
+            ResultSet resultat = statement.executeQuery("SELECT MAX(id_partie) AS max_id FROM Partie;");
+            resultat.next();
+            int id_partie = resultat.getInt("max_id");
+            
+            UserDAO userdao = (UserDAO) DAOFactory.getInstance().getUserDAO();
+            int id_joueur = userdao.getId(user.getEmail());
+            
+	        preparedStatement2 = connexion.prepareStatement("INSERT INTO Joueur_Partie(id_joueur, id_partie, score) VALUES(?, ?, ?);");
+	        preparedStatement2.setInt(1, id_joueur);
+	        preparedStatement2.setInt(2, id_partie);
 	        preparedStatement2.setInt(3, game.getScore());
             preparedStatement2.executeUpdate();
             
