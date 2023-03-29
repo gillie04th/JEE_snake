@@ -43,7 +43,7 @@
 				  <c:forEach items="${ games }" var="game">
 					<c:if test="${ !games.isEmpty()}">
 					<c:set var="i" value="${i + 1}" scope="page"/>
-						<tr>
+						<tr class="partie">
 					      <th scope="row">${i}</th>
 					      <td>${ game.getJoueur().getName() }</td>
 					      <td>${ game.getMap() }</td>
@@ -63,5 +63,37 @@
 	  </div>
 
 </div>
+
+<script>
+	mapSelector = document.getElementById("map-select");
+	mapSelector.addEventListener("change", function(){
+		lignes = document.querySelectorAll(".table-striped > tbody > .partie");
+		let counter = 1;
+		if(mapSelector.value != "all"){
+			lignes.forEach(row => {
+				number = row.getElementsByTagName("th");
+					
+				col = row.getElementsByTagName("td");
+				console.log(col[0].innerHTML);
+				
+				if(mapSelector.value == col[1].innerHTML){
+					//console.log("debug");
+					row.style.display = '';
+					number[0].innerHTML = counter;
+					counter ++;
+				} else {
+					row.style.display = 'none';
+				}
+			});
+		} else {
+			lignes.forEach(row => {
+				number = row.getElementsByTagName("th");
+				row.style.display = '';
+				number[0].innerHTML = counter;
+				counter ++;
+			});
+		}
+	});
+</script>
 
 <%@ include file="footer.jsp" %>
