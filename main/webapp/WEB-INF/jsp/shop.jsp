@@ -18,7 +18,7 @@
 					        <h6 class="card-title">${ skin }</h6>
 					        <form method="post" action="shop">
 					        	<input type="hidden" value="${ skin }" name="skin">
-						    	<input type="submit" class="btn btn-primary">Utiliser ce skin</a>
+						    	<input type="submit" class="btn btn-primary" value="Utiliser ce skin">
 					        </form>
 				    	</div>
 				    </div>
